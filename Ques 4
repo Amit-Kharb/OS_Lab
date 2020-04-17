@@ -1,0 +1,25 @@
+#include<unistd.h>
+#include<stdio.h>
+#include<fcntl.h>
+
+int main()
+{
+int fd, n, p, q;
+char arr[100];
+
+fd=open("f1.txt",O_CREAT|O_RDWR,0777);	//To create and open a file with R/W permissions
+n=read(0,arr,100);
+write(fd,arr,n);			//To write the data to the file
+
+lseek(fd,n,SEEK_END);			//To set the R/W pointer to the end
+
+printf("Length is %d", n);		//Length of the array - arr[] entered
+
+p=lseek(fd,n-6,SEEK_SET);		//To set the location of R/W head to the 6th last location
+printf("\nPosition is %d\n",p);		//Current position of the R/W head
+read(fd,arr,5);				//To read the the last 5 characters
+printf("Last 5 Characters are : \n");
+write(1,arr,5);				//To write the last 5 characters on the terminal
+
+printf("\n");
+}
