@@ -1,1 +1,55 @@
+#include<unistd.h>
 #include<stdio.h>
+#include<pthread.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+#include<fcntl.h>
+#include<stdbool.h>
+
+void *fn1();
+void *fn2();
+
+int turn;
+bool flag[2];
+
+void main()
+{
+pthread_t thread1,thread2;
+pthread_create(&thread1,NULL,fn1,NULL);	//Creating Thread thread1
+pthread_create(&thread2,NULL,fn2,NULL);	//Creating Thread thread2
+pthread_join(thread1,NULL);
+pthread_join(thread2,NULL);
+printf("Task completed\n");
+}
+void *fn1()
+{
+	flag[0]=true;
+	printf("Flag of P0 - True\n\n");
+	if(turn!=0 || flag[0]==false)
+	{
+		printf("process 0 in Waiting\n\n");
+		wait;
+		turn=0;
+		flag[0]=true;
+	}
+	printf("Process 0 executed\n\n\n");
+	turn = 1;
+	flag[0]=false;
+
+}
+void *fn2()
+{
+
+	flag[1]=true;
+	printf("flag of p1 - True\n\n");
+	if(turn!=1 || flag[1]==false)
+	{
+		printf("process 1 in Waiting\n\n");
+		wait;
+		turn=1;
+		flag[1]=true;
+	}
+	printf("Process 1 executed\n\n\n");
+	turn = 0;
+	flag[1]=false;
+}
